@@ -164,7 +164,67 @@
   .ticket-back input, .ticket-back textarea{ width:100%; background:transparent; border:none; border-bottom:1px solid var(--border); color:var(--ink); font-family:var(--body); font-size:14px; padding:6px 0; outline:none; }
   .ticket-back textarea{ resize:none; min-height:76px; }
   .ticket-submit-row{ margin-top:12px; display:flex; justify-content:flex-end; }
-  @media (max-width:520px){ .ticket-stack{ max-width:88vw; } }
+  @media (max-width:700px){
+    .ticket-stack{
+      max-width:min(92vw, 420px);
+      height:280px;
+      perspective:none;
+    }
+    .ticket-stack:has(.flipped){
+      height:auto;
+      min-height:460px;
+      z-index:30;
+    }
+    .ticket-stack:has(.flipped) .ticket-card.d1,
+    .ticket-stack:has(.flipped) .ticket-card.d2{
+      opacity:0;
+      pointer-events:none;
+    }
+    .ticket-card.pulled{
+      transform: translateY(-18px) !important;
+    }
+    .ticket-card.flipped{
+      height:auto;
+      min-height:0;
+      transform: translateY(-18px) !important;
+      background: var(--ticket);
+      border:1px solid var(--border);
+      overflow:visible;
+    }
+    .ticket-card.flipped .ticket-face{
+      visibility:hidden;
+      pointer-events:none;
+    }
+    .ticket-back{
+      transform:none !important;
+      -webkit-transform:none !important;
+      backface-visibility:visible;
+      -webkit-backface-visibility:visible;
+      visibility:hidden;
+      pointer-events:none;
+      padding:22px 18px 20px;
+      gap:0;
+    }
+    .ticket-card.flipped .ticket-back{
+      visibility:visible;
+      pointer-events:auto;
+      position:relative;
+      inset:auto;
+      display:flex;
+    }
+    .ticket-chips{ gap:6px; margin-bottom:6px; }
+    .ticket-chip{ font-size:11px; padding:7px 10px; }
+    .ticket-back label{ margin-top:12px; margin-bottom:2px; }
+    .ticket-back input,
+    .ticket-back textarea{
+      font-size:16px;
+      line-height:1.4;
+      padding:8px 0;
+      min-height:28px;
+    }
+    .ticket-back textarea{ min-height:72px; }
+    .ticket-submit-row{ margin-top:16px; }
+  }
 
   .ticket-overlay{ position:fixed; inset:0; z-index:8; background:rgba(0,0,0,0.4); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); opacity:0; pointer-events:none; transition: opacity 0.45s ease; }
   .ticket-overlay.show{ opacity:1; pointer-events:auto; }
