@@ -146,7 +146,7 @@
   .ticket-face{ position:absolute; inset:0; border-radius:20px; backface-visibility:hidden; -webkit-backface-visibility:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:22px 24px; cursor:pointer; }
   .ticket-shape{ position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none; }
   .ticket-shape path{ fill:var(--ticket); stroke:var(--border); stroke-width:1; }
-  .ticket-face > *:not(.ticket-shape), .ticket-back > *:not(.ticket-shape){ position:relative; z-index:1; }
+  .ticket-face > *:not(.ticket-shape), .ticket-back > *:not(.ticket-shape):not(.ticket-close){ position:relative; z-index:1; }
   .ticket-face .num{ font-family:var(--mono); font-size:11.5px; color:var(--ink-dim); letter-spacing:0.06em; }
   .ticket-divider{ width:78%; border-top:1px dashed var(--border); margin:12px 0; }
   .preview-chips{ display:flex; gap:6px; flex-wrap:wrap; justify-content:center; }
@@ -156,13 +156,34 @@
   .pv-line{ border-bottom:1px solid var(--border); height:16px; margin-top:3px; }
   .ticket-face .hint{ font-family:var(--mono); font-size:11px; color:var(--ink-dim); margin-top:14px; }
 
-  .ticket-back{ position:absolute; inset:0; border-radius:20px; backface-visibility:hidden; -webkit-backface-visibility:hidden; transform:rotateY(180deg); padding:28px 30px; text-align:left; display:flex; flex-direction:column; gap:2px; }
+  .ticket-back{ position:absolute; inset:0; border-radius:20px; backface-visibility:hidden; -webkit-backface-visibility:hidden; transform:rotateY(180deg); padding:48px 30px 28px; text-align:left; display:flex; flex-direction:column; gap:2px; }
   .ticket-chips{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
   .ticket-chip{ font-family:var(--mono); font-size:11.5px; padding:8px 12px; border-radius:999px; border:1px solid var(--border); color:var(--ink-dim); cursor:pointer; transition:all 0.2s; }
   .ticket-chip.active{ background:var(--ink); color:var(--bg); border-color:var(--ink); }
   .ticket-back label{ font-family:var(--mono); font-size:10px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:0.06em; display:block; margin-top:10px; margin-bottom:4px; }
   .ticket-back input, .ticket-back textarea{ width:100%; background:transparent; border:none; border-bottom:1px solid var(--border); color:var(--ink); font-family:var(--body); font-size:14px; padding:6px 0; outline:none; }
   .ticket-back textarea{ resize:none; min-height:76px; }
+  .ticket-close{
+    position:absolute;
+    top:14px;
+    right:14px;
+    z-index:4;
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    border:1px solid var(--border);
+    background: color-mix(in srgb, var(--ticket) 70%, var(--bg));
+    color: var(--ink);
+    font-size:22px;
+    line-height:1;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .ticket-close:hover{ border-color: rgba(128,128,128,0.45); transform: scale(1.05); }
   .ticket-submit-row{ margin-top:12px; display:flex; justify-content:flex-end; }
   @media (max-width:700px){
     .ticket-stack{
@@ -187,13 +208,16 @@
       height:auto;
       min-height:0;
       transform: translateY(-18px) !important;
-      background: var(--ticket);
-      border:1px solid var(--border);
+      background: transparent;
+      border: none;
       overflow:visible;
     }
     .ticket-card.flipped .ticket-face{
       visibility:hidden;
       pointer-events:none;
+    }
+    .ticket-card.flipped .ticket-shape{
+      display:block;
     }
     .ticket-back{
       transform:none !important;
@@ -202,7 +226,7 @@
       -webkit-backface-visibility:visible;
       visibility:hidden;
       pointer-events:none;
-      padding:22px 18px 20px;
+      padding:48px 22px 22px;
       gap:0;
     }
     .ticket-card.flipped .ticket-back{
@@ -211,6 +235,7 @@
       position:relative;
       inset:auto;
       display:flex;
+      overflow:visible;
     }
     .ticket-chips{ gap:6px; margin-bottom:6px; }
     .ticket-chip{ font-size:11px; padding:7px 10px; }
@@ -271,76 +296,92 @@
     .timeline-track{ display:none; }
     .timeline-nodes{ flex-direction:column; gap:20px; align-items:stretch; }
     .tl-node{
-      flex-direction:row;
-      flex-wrap:wrap;
+      display:grid;
+      grid-template-columns: 14px max-content;
+      grid-template-rows: auto auto;
+      column-gap:12px;
+      row-gap:2px;
       align-items:center;
-      gap:10px 14px;
       width:100%;
       cursor:pointer;
+    }
+    .tl-node.open{
+      grid-template-columns: 14px max-content minmax(0, 1fr);
+      align-items:start;
     }
     .tl-dot,
     .tl-node:hover .tl-dot,
     .tl-node.open .tl-dot{
+      grid-column:1;
+      grid-row:1;
       width:14px;
       height:14px;
       min-width:14px;
       min-height:14px;
-      flex:0 0 14px;
+      flex:none;
       transform:none;
+      margin-top:2px;
     }
     .tl-node.open .tl-dot{ background:var(--accent); }
-    .tl-label{ margin-top:0; }
-    .tl-sub{ margin-top:0; }
+    .tl-label{
+      grid-column:2;
+      grid-row:1;
+      margin-top:0;
+    }
+    .tl-sub{
+      grid-column:2;
+      grid-row:2;
+      margin-top:0;
+    }
     .tl-branch{
-      flex:1 0 100%;
-      width:100%;
+      grid-column:3;
+      grid-row:1 / span 2;
+      width:auto;
       position:static;
       transform:none;
       display:none;
       flex-direction:row;
-      align-items:stretch;
+      align-items:flex-start;
       gap:0;
-      margin:4px 0 0;
-      padding-left:6px;
+      margin:0;
+      padding:0;
+      align-self:start;
     }
     .tl-node.open .tl-branch{ display:flex; }
-    .tl-connector{
-      display:block;
-      width:1px;
-      min-width:1px;
-      height:auto;
-      align-self:stretch;
-      min-height:40px;
-      margin:2px 14px 2px 6px;
-      background:var(--accent);
-      opacity:1;
-      flex-shrink:0;
+    .tl-connector{ display:none; }
+    .tl-tree{
+      display:none;
+      position:absolute;
+      left:0;
+      top:0;
+      width:100%;
+      height:100%;
+      overflow:visible;
+      pointer-events:none;
+      z-index:1;
     }
+    .tl-node.open .tl-tree{ display:block; }
     .tl-subnodes{
       width:auto;
       flex:1;
+      min-width:0;
       flex-direction:column;
       align-items:flex-start;
       justify-content:flex-start !important;
       opacity:1;
-      margin-top:0;
-      gap:8px;
+      position:relative;
+      z-index:2;
+      margin:0.55em 0 0;
+      padding:4px 0 0 28px;
+      gap:10px;
+      border:none;
     }
     .tl-subnode{
       opacity:1;
       transform:none;
       pointer-events:auto;
       position:relative;
-      margin-left:0;
-    }
-    .tl-subnode::before{
-      content:'';
-      position:absolute;
-      left:-14px;
-      top:50%;
-      width:10px;
-      height:1px;
-      background:var(--accent);
+      margin:0;
     }
   }
   .card{ background: var(--bg-card); border:1px solid var(--border); border-radius:20px; padding:34px 30px; transition: border-color 0.2s, transform 0.2s; }
@@ -446,11 +487,9 @@
       flex-direction:column;
       align-items:stretch;
       justify-content:center;
-      gap:8px;
+      gap:4px;
       padding:100px 8vw 48px;
-      background: color-mix(in srgb, var(--bg) 92%, transparent);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      background: var(--bg);
       opacity:0;
       visibility:hidden;
       pointer-events:none;
@@ -462,9 +501,9 @@
       pointer-events:auto;
     }
     nav a.nav-link{
-      font-size:28px;
+      font-size:17px;
       color: var(--ink);
-      padding:12px 0;
+      padding:14px 0;
       border-bottom:1px solid var(--border-soft);
     }
     nav .theme-toggle{ margin-top:18px; }
@@ -531,6 +570,7 @@
         </div>
         <div class="ticket-back">
           <svg class="ticket-shape" viewBox="0 0 420 420" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M20,0 H400 A20,20 0 0 1 420,20 V400 A20,20 0 0 1 400,420 H20 A20,20 0 0 1 0,400 V20 A20,20 0 0 1 20,0 Z M-12,210 A12,12 0 1 0 12,210 A12,12 0 1 0 -12,210 Z M408,210 A12,12 0 1 0 432,210 A12,12 0 1 0 408,210 Z"/></svg>
+          <button type="button" class="ticket-close" id="ticketClose" aria-label="Close ticket">&times;</button>
           <div class="ticket-chips">
             <div class="ticket-chip active" data-v="Design">Design</div>
             <div class="ticket-chip" data-v="Build">Build</div>
@@ -879,12 +919,20 @@
       ticketOverlay.classList.add('show');
       setTimeout(() => ticketFront.classList.add('flipped'), 480);
     });
-    ticketOverlay.addEventListener('click', () => {
+    const closeTicket = () => {
       ticketPulled = false;
       ticketFront.classList.remove('flipped');
       ticketFront.classList.remove('pulled');
       ticketOverlay.classList.remove('show');
-    });
+    };
+    ticketOverlay.addEventListener('click', closeTicket);
+    const ticketClose = document.getElementById('ticketClose');
+    if (ticketClose) {
+      ticketClose.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeTicket();
+      });
+    }
     document.querySelectorAll('.ticket-chip').forEach(c => {
       c.addEventListener('click', () => {
         document.querySelectorAll('.ticket-chip').forEach(x => x.classList.remove('active'));
@@ -893,13 +941,91 @@
     });
   }
 
+  const tlMobile = () => window.matchMedia('(max-width:700px)').matches;
+  const tlAccent = () => getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#41899b';
+
+  function clearTlTrees() {
+    document.querySelectorAll('svg.tl-tree').forEach(s => s.remove());
+  }
+
+  function drawTlTree(node) {
+    if (!tlMobile() || !node.classList.contains('open')) return;
+    const label = node.querySelector('.tl-label');
+    const pills = [...node.querySelectorAll('.tl-subnode')];
+    if (!label || !pills.length) return;
+
+    let svg = node.querySelector('svg.tl-tree');
+    if (!svg) {
+      svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.classList.add('tl-tree');
+      svg.setAttribute('aria-hidden', 'true');
+      node.appendChild(svg);
+    }
+
+    const nr = node.getBoundingClientRect();
+    const lr = label.getBoundingClientRect();
+    const w = Math.ceil(nr.width);
+    const h = Math.ceil(nr.height);
+    svg.setAttribute('width', w);
+    svg.setAttribute('height', h);
+    svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+
+    const startX = lr.right - nr.left + 6;
+    const startY = lr.top + lr.height / 2 - nr.top;
+    const trunkX = startX + 16;
+    const bend = 12;
+
+    const centers = pills.map(p => {
+      const r = p.getBoundingClientRect();
+      return {
+        x: r.left - nr.left,
+        y: r.top + r.height / 2 - nr.top
+      };
+    });
+    const last = centers[centers.length - 1];
+    const peel = 12;
+
+    // One continuous stroke: from label → down the trunk → curves into the last pill
+    const spine = [
+      `M ${startX.toFixed(1)} ${startY.toFixed(1)}`,
+      `L ${(trunkX - bend).toFixed(1)} ${startY.toFixed(1)}`,
+      `Q ${trunkX.toFixed(1)} ${startY.toFixed(1)} ${trunkX.toFixed(1)} ${(startY + bend).toFixed(1)}`,
+      `L ${trunkX.toFixed(1)} ${(last.y - peel).toFixed(1)}`,
+      `C ${trunkX.toFixed(1)} ${(last.y - peel).toFixed(1)} ${trunkX.toFixed(1)} ${last.y.toFixed(1)} ${(trunkX + peel).toFixed(1)} ${last.y.toFixed(1)}`,
+      `L ${last.x.toFixed(1)} ${last.y.toFixed(1)}`
+    ].join(' ');
+
+    // Intermediate branches peel off the same trunk (same path stroke)
+    const forks = centers.slice(0, -1).map(({ x, y }) => [
+      `M ${trunkX.toFixed(1)} ${(y - peel).toFixed(1)}`,
+      `C ${trunkX.toFixed(1)} ${(y - peel).toFixed(1)} ${trunkX.toFixed(1)} ${y.toFixed(1)} ${(trunkX + peel).toFixed(1)} ${y.toFixed(1)}`,
+      `L ${x.toFixed(1)} ${y.toFixed(1)}`
+    ].join(' ')).join(' ');
+
+    const stroke = tlAccent();
+    svg.innerHTML = `<path d="${spine} ${forks}" fill="none" stroke="${stroke}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`;
+  }
+
+  function refreshTlTrees() {
+    clearTlTrees();
+    const open = document.querySelector('.tl-node.open');
+    if (open && tlMobile()) {
+      requestAnimationFrame(() => drawTlTree(open));
+    }
+  }
+
   document.querySelectorAll('.tl-node').forEach(n => {
     n.addEventListener('click', () => {
       const wasOpen = n.classList.contains('open');
       document.querySelectorAll('.tl-node').forEach(x => x.classList.remove('open'));
-      if (!wasOpen) n.classList.add('open');
+      clearTlTrees();
+      if (!wasOpen) {
+        n.classList.add('open');
+        requestAnimationFrame(() => requestAnimationFrame(() => drawTlTree(n)));
+      }
     });
   });
+  window.addEventListener('resize', refreshTlTrees);
 </script>
 
 </body>
