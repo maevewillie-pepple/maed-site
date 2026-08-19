@@ -177,15 +177,14 @@
   .tp-main{ font-family:var(--display); font-weight:400; font-size:19px; }
   .tp-sub{ font-family:var(--mono); font-size:12px; color:var(--ink-faint); margin-top:6px; letter-spacing:0.04em; }
   .ticket-stack{ position:relative; z-index:20; width:100%; height:300px; perspective:1200px; margin-top:32px; max-width:420px; margin-left:auto; margin-right:auto; align-self:center; flex-shrink:0; }
-  .ticket-card{ position:absolute; inset:0; width:100%; height:260px; border-radius:20px; background: var(--ticket); border:1px solid var(--border); transition:transform 0.5s cubic-bezier(.2,.9,.3,1); transform-style:preserve-3d; }
+  .ticket-card{ position:absolute; inset:0; width:100%; height:260px; border-radius:20px; background: transparent; border:none; transition:transform 0.5s cubic-bezier(.2,.9,.3,1); transform-style:preserve-3d; overflow:visible; }
   .ticket-card.d1, .ticket-card.d2{
-    mask-image: radial-gradient(circle 10px at 0 50%, transparent 99%, black 100%), radial-gradient(circle 10px at 100% 50%, transparent 99%, black 100%);
-    -webkit-mask-image: radial-gradient(circle 10px at 0 50%, transparent 99%, black 100%), radial-gradient(circle 10px at 100% 50%, transparent 99%, black 100%);
-    mask-composite: intersect; -webkit-mask-composite: source-in, source-in;
+    background: transparent;
+    pointer-events:none;
   }
   .ticket-card.d1{ transform: translateY(10px) rotate(-3deg) scale(0.97); z-index:1; }
   .ticket-card.d2{ transform: translateY(20px) rotate(3deg) scale(0.94); z-index:0; }
-  .ticket-card.front{ z-index:9; background:transparent; border:none; }
+  .ticket-card.front{ z-index:9; background:transparent; border:none; overflow:visible; box-shadow:none; }
   .ticket-stack:hover .ticket-card.front:not(.pulled){ transform: translateY(-8px) rotate(-1deg) scale(1.02); }
   .ticket-stack:hover .ticket-card.d1{ transform: translateY(4px) rotate(-7deg) scale(0.96); }
   .ticket-stack:hover .ticket-card.d2{ transform: translateY(16px) rotate(7deg) scale(0.93); }
@@ -194,7 +193,15 @@
 
   .ticket-face{ position:absolute; inset:0; border-radius:20px; backface-visibility:hidden; -webkit-backface-visibility:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:22px 24px; cursor:pointer; }
   .ticket-shape{ position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none; }
-  .ticket-shape path{ fill:var(--ticket); stroke:var(--border); stroke-width:1; }
+  .ticket-shape{ overflow:visible; }
+  .ticket-shape path.ticket-silhouette{
+    fill:var(--ticket);
+    stroke:var(--border);
+    stroke-width:1;
+    stroke-linejoin:round;
+    vector-effect:non-scaling-stroke;
+  }
+  .ticket-face, .ticket-back{ overflow:visible; }
   .ticket-face > *:not(.ticket-shape), .ticket-back > *:not(.ticket-shape):not(.ticket-close), .ticket-back form{ position:relative; z-index:1; }
   .ticket-face .num{ font-family:var(--mono); font-size:11.5px; color:var(--ink-dim); letter-spacing:0.06em; }
   .ticket-divider{ width:78%; border-top:1px dashed var(--border); margin:12px 0; }
@@ -373,8 +380,43 @@
   .founder-copy{ display:flex; flex-direction:column; justify-content:center; }
   .founder-copy p{ color: var(--ink-dim); font-size:15.5px; line-height:1.7; }
 
-  .work-card{ padding:0; overflow:hidden; display:flex; flex-direction:column; }
-  .work-thumb{ position:relative; aspect-ratio: 4/3; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .work-card{
+    padding:14px 14px 0;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    background: color-mix(in srgb, var(--bg-card) 62%, transparent);
+    border: 1px solid color-mix(in srgb, var(--ink) 7%, transparent);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--ink) 10%, transparent),
+      0 10px 36px color-mix(in srgb, #000 14%, transparent);
+    transition: border-color 0.25s ease, transform 0.25s ease, background 0.3s ease, box-shadow 0.25s ease;
+  }
+  .work-card:hover{
+    border-color: color-mix(in srgb, var(--ink) 12%, transparent);
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--ink) 14%, transparent),
+      0 14px 40px color-mix(in srgb, #000 18%, transparent);
+  }
+  html[data-theme="light"] .work-card{
+    background: color-mix(in srgb, #ffffff 48%, transparent);
+    border-color: color-mix(in srgb, var(--ink) 6%, transparent);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.65),
+      0 10px 36px rgba(23,22,26,0.06);
+  }
+  .work-thumb{
+    position:relative;
+    aspect-ratio: 4/3;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    border-radius:14px;
+  }
   .work-thumb h3{ font-family: var(--display); font-size:24px; font-weight:400; color:#fff; position:relative; z-index:2; letter-spacing:-0.01em; }
   .thumb-combly{ background: radial-gradient(circle at 28% 26%, #f3eadc, transparent 55%), radial-gradient(circle at 78% 74%, #b89672, transparent 58%), linear-gradient(145deg, #d8c4a8, #9a7d5f); }
   .thumb-combly h3{ color:#2a2218; }
@@ -383,7 +425,7 @@
   .thumb-more h3{ color: var(--ink-faint); font-size:17px; font-weight:500; }
   .thumb-a11xyz{ background: radial-gradient(circle at 22% 20%, rgba(65,137,155,0.55), transparent 52%), radial-gradient(circle at 82% 78%, rgba(120,180,160,0.28), transparent 55%), linear-gradient(150deg, #0e1618, #1a2e32); }
   .thumb-a11xyz h3{ color:#e8f4f2; }
-  .work-body{ padding:24px 24px 26px; display:flex; flex-direction:column; flex-grow:1; }
+  .work-body{ padding:18px 8px 22px; display:flex; flex-direction:column; flex-grow:1; }
   .work-tag{ font-family: var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color: var(--ink-faint); margin-bottom:12px; }
   .work-body p{ color: var(--ink-dim); font-size:14px; line-height:1.6; flex-grow:1; }
   .work-link{ margin-top:16px; font-size:13px; font-weight:400; text-decoration:none; color: var(--ink); display:inline-flex; align-items:center; gap:6px; align-self:flex-start; }
@@ -538,7 +580,7 @@
     <div class="card-grid card-grid-2">
       <div class="card work-card reveal">
         <div class="work-thumb thumb-a11xyz" style="aspect-ratio:16/10;"><h3>A11xyz</h3></div>
-        <div class="work-body" style="padding:28px 26px 30px;">
+        <div class="work-body" style="padding:20px 10px 24px;">
           <div class="offer-status live" style="margin-bottom:14px;"><span class="status-dot"></span><span class="status-label">Live now</span></div>
           <p style="font-size:15px; line-height:1.7;">An automated WCAG 2.2 accessibility scanner. Paste a URL and get issues ordered the way a screen reader meets the page, in plain language, with real fixes. Built from the patterns MAED keeps seeing across client audits.</p>
           <a href="https://a11xyz.com/" class="work-link" style="margin-top:20px;" target="_blank" rel="noopener">Visit a11xyz.com <span aria-hidden="true">→</span><span class="sr-only"> (opens in a new tab)</span></a>
@@ -546,7 +588,7 @@
       </div>
       <div class="card work-card reveal">
         <div class="work-thumb thumb-combly" style="aspect-ratio:16/10;"><h3>Combly AI</h3></div>
-        <div class="work-body" style="padding:28px 26px 30px;">
+        <div class="work-body" style="padding:20px 10px 24px;">
           <div class="offer-status live" style="margin-bottom:14px;"><span class="status-dot"></span><span class="status-label">Live now</span></div>
           <p style="font-size:15px; line-height:1.7;">An AI-powered haircare platform, designed and built end-to-end. MAED's own proof of concept for shipping a consumer product from idea to launch, not just advising on someone else's.</p>
           <a href="https://combly.uk" class="work-link" style="margin-top:20px;">Visit combly.uk →</a>
