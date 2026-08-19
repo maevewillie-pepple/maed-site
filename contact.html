@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MAED · Design and build studio</title>
+<title>Contact · MAED</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -15,14 +15,16 @@
     --ticket: #1c1c21;
     --section-alt: #131317;
     --accent: #41899b;
+    --accent-text: #5eb0c3;
     --ink: #f5f4f2;
     --ink-dim: #a2a0a8;
-    --ink-faint: #68666e;
-    --border: rgba(245,244,242,0.09);
-    --border-soft: rgba(245,244,242,0.06);
+    --ink-faint: #9a989f;
+    --border: rgba(245,244,242,0.32);
+    --border-soft: rgba(245,244,242,0.22);
     --mono: 'IBM Plex Mono', monospace;
     --display: 'Geist', sans-serif;
     --body: 'Geist', sans-serif;
+    --focus: #7ec8d6;
   }
   html[data-theme="light"]{
     --bg: #f2efe8;
@@ -30,11 +32,14 @@
     --bg-card-2: rgba(0,0,0,0.04);
     --ticket: #e9e5db;
     --section-alt: #ece7dc;
+    --accent: #2f6d7c;
+    --accent-text: #2a6270;
     --ink: #17161a;
     --ink-dim: #5c5a63;
-    --ink-faint: #9a97a0;
-    --border: rgba(23,22,26,0.10);
-    --border-soft: rgba(23,22,26,0.06);
+    --ink-faint: #5a5860;
+    --border: rgba(23,22,26,0.36);
+    --border-soft: rgba(23,22,26,0.26);
+    --focus: #2f6d7c;
   }
   *{ margin:0; padding:0; box-sizing:border-box; }
   html{ scroll-behavior:smooth; }
@@ -84,6 +89,50 @@
   header.nav-open .nav-toggle span:nth-child(2){ opacity:0; }
   header.nav-open .nav-toggle span:nth-child(3){ top:20px; transform: rotate(-45deg); }
   body.nav-locked{ overflow:hidden; }
+  .sr-only{
+    position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+    overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  }
+
+  .skip-link{
+    position:absolute; left:16px; top:16px; z-index:200;
+    padding:10px 14px; border-radius:10px;
+    background:var(--ink); color:var(--bg);
+    font-family:var(--mono); font-size:13px; text-decoration:none;
+    transform:translateY(-160%);
+    transition:transform 0.2s ease;
+  }
+  .skip-link:focus, .skip-link:focus-visible{
+    transform:translateY(0);
+    outline:3px solid var(--focus);
+    outline-offset:3px;
+  }
+  :focus{ outline: none; }
+  :focus-visible{
+    outline:3px solid var(--focus);
+    outline-offset:3px;
+  }
+  .nav-toggle:focus-visible, .theme-toggle:focus-visible, .ticket-close:focus-visible, .ticket-chip:focus-visible{
+    outline-offset:2px;
+  }
+  .btn:focus-visible, .work-link:focus-visible, nav a:focus-visible{
+    outline-offset:3px;
+  }
+  .live .status-label, .roadmap .status-label{ color: var(--accent-text); }
+  .price-card.featured{ border-color: color-mix(in srgb, var(--accent) 75%, var(--ink)); }
+  .btn-primary:hover{ background: var(--accent-text); color:#0b0b0e; }
+  html[data-theme="light"] .btn-primary:hover{ color:#f5f4f2; }
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{
+      animation-duration:0.01ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:0.01ms !important;
+      scroll-behavior:auto !important;
+    }
+    .reveal{ opacity:1; transform:none; }
+  }
+  .reveal{ transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+  noscript .reveal, html.no-js .reveal{ opacity:1; transform:none; }
 
   section{ padding: 130px 4vw; max-width:1480px; margin:0 auto; }
   .hero-section{ padding-top: 200px; padding-bottom: 100px; text-align:center; display:flex; flex-direction:column; align-items:center; }
@@ -146,7 +195,7 @@
   .ticket-face{ position:absolute; inset:0; border-radius:20px; backface-visibility:hidden; -webkit-backface-visibility:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:22px 24px; cursor:pointer; }
   .ticket-shape{ position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none; }
   .ticket-shape path{ fill:var(--ticket); stroke:var(--border); stroke-width:1; }
-  .ticket-face > *:not(.ticket-shape), .ticket-back > *:not(.ticket-shape):not(.ticket-close){ position:relative; z-index:1; }
+  .ticket-face > *:not(.ticket-shape), .ticket-back > *:not(.ticket-shape):not(.ticket-close), .ticket-back form{ position:relative; z-index:1; }
   .ticket-face .num{ font-family:var(--mono); font-size:11.5px; color:var(--ink-dim); letter-spacing:0.06em; }
   .ticket-divider{ width:78%; border-top:1px dashed var(--border); margin:12px 0; }
   .preview-chips{ display:flex; gap:6px; flex-wrap:wrap; justify-content:center; }
@@ -157,11 +206,13 @@
   .ticket-face .hint{ font-family:var(--mono); font-size:11px; color:var(--ink-dim); margin-top:14px; }
 
   .ticket-back{ position:absolute; inset:0; border-radius:20px; backface-visibility:hidden; -webkit-backface-visibility:hidden; transform:rotateY(180deg); padding:48px 30px 28px; text-align:left; display:flex; flex-direction:column; gap:2px; }
+  .ticket-back form{ display:flex; flex-direction:column; gap:2px; flex:1; min-height:0; }
   .ticket-chips{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
-  .ticket-chip{ font-family:var(--mono); font-size:11.5px; padding:8px 12px; border-radius:999px; border:1px solid var(--border); color:var(--ink-dim); cursor:pointer; transition:all 0.2s; }
+  .ticket-chip{ font-family:var(--mono); font-size:11.5px; padding:8px 12px; border-radius:999px; border:1px solid var(--border); color:var(--ink-dim); cursor:pointer; transition:all 0.2s; background:transparent; appearance:none; }
   .ticket-chip.active{ background:var(--ink); color:var(--bg); border-color:var(--ink); }
   .ticket-back label{ font-family:var(--mono); font-size:10px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:0.06em; display:block; margin-top:10px; margin-bottom:4px; }
-  .ticket-back input, .ticket-back textarea{ width:100%; background:transparent; border:none; border-bottom:1px solid var(--border); color:var(--ink); font-family:var(--body); font-size:14px; padding:6px 0; outline:none; }
+  .ticket-back input, .ticket-back textarea{ width:100%; background:transparent; border:none; border-bottom:1px solid var(--border); color:var(--ink); font-family:var(--body); font-size:14px; padding:6px 0; border-radius:0; }
+  .ticket-back input:focus-visible, .ticket-back textarea:focus-visible{ border-bottom-color: var(--focus); outline:none; box-shadow:0 2px 0 0 var(--focus); }
   .ticket-back textarea{ resize:none; min-height:76px; }
   .ticket-close{
     position:absolute;
@@ -256,7 +307,8 @@
 
   .btn{ font-family: var(--body); font-weight:400; font-size:14.5px; padding:15px 28px; border-radius:999px; text-decoration:none; display:inline-flex; align-items:center; gap:8px; transition: all 0.2s ease; white-space:nowrap; }
   .btn-primary{ background: var(--ink); color: var(--bg); }
-  .btn-primary:hover{ background: var(--accent); color:#f5f4f2; transform: translateY(-1px); }
+  .btn-primary:hover{ background: var(--accent-text); color:#0b0b0e; transform: translateY(-1px); }
+  html[data-theme="light"] .btn-primary:hover{ color:#f5f4f2; }
   .btn-ghost{ border:1px solid var(--border); color: var(--ink); background: transparent; }
   .btn-ghost:hover{ border-color: rgba(128,128,128,0.4); transform: translateY(-1px); }
   .btn-small{ font-size:13px; padding:11px 20px; }
@@ -329,6 +381,8 @@
   .thumb-thread{ background: radial-gradient(circle at 75% 20%, #6b88c6, transparent 55%), radial-gradient(circle at 25% 75%, #33448c, transparent 60%), linear-gradient(135deg, #0a0e20, #1a2550); }
   .thumb-more{ background: repeating-linear-gradient(135deg, rgba(255,255,255,0.04) 0 2px, transparent 2px 14px), #17171b; }
   .thumb-more h3{ color: var(--ink-faint); font-size:17px; font-weight:500; }
+  .thumb-a11xyz{ background: radial-gradient(circle at 22% 20%, rgba(65,137,155,0.55), transparent 52%), radial-gradient(circle at 82% 78%, rgba(120,180,160,0.28), transparent 55%), linear-gradient(150deg, #0e1618, #1a2e32); }
+  .thumb-a11xyz h3{ color:#e8f4f2; }
   .work-body{ padding:24px 24px 26px; display:flex; flex-direction:column; flex-grow:1; }
   .work-tag{ font-family: var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color: var(--ink-faint); margin-bottom:12px; }
   .work-body p{ color: var(--ink-dim); font-size:14px; line-height:1.6; flex-grow:1; }
@@ -365,8 +419,8 @@
   .live .status-dot{ background: var(--accent); box-shadow:0 0 8px rgba(65,137,155,0.55); animation: pulse 2.4s ease-in-out infinite; }
   .roadmap .status-dot{ background: var(--ink-faint); }
   .status-label{ font-family: var(--mono); font-size:11.5px; letter-spacing:0.1em; text-transform:uppercase; }
-  .live .status-label{ color: var(--accent); }
-  .roadmap .status-label{ color: var(--ink-faint); }
+  .live .status-label{ color: var(--accent-text); }
+  .roadmap .status-label{ color: var(--ink-dim); }
   .offers{ display:flex; flex-direction:column; gap:20px; }
   .offer{ display:grid; grid-template-columns: 1.5fr 1fr; gap:36px; align-items:center; }
   .offer.roadmap{ opacity:0.7; }
@@ -377,7 +431,7 @@
 
   .faq-list{ display:flex; flex-direction:column; gap:14px; }
   .faq-item{ padding:22px 26px; }
-  .faq-item .q{ font-family: var(--display); font-size:15.5px; font-weight:400; margin-bottom:8px; display:flex; gap:14px; }
+  .faq-item .q{ font-family: var(--display); font-size:15.5px; font-weight:400; margin-bottom:8px; display:flex; gap:14px; color:var(--ink); }
   .faq-item .q .qnum{ font-family:var(--mono); color: var(--ink-faint); font-size:13px; font-weight:400; }
   .faq-item .a{ color: var(--ink-dim); font-size:14px; line-height:1.6; padding-left:32px; }
 
@@ -455,24 +509,25 @@
 </head>
 <body>
 
-<div class="field"><canvas id="dotField"></canvas></div>
-<div class="field-fade"></div>
+<a class="skip-link" href="#main">Skip to main content</a>
+<div class="field" aria-hidden="true"><canvas id="dotField"></canvas></div>
+<div class="field-fade" aria-hidden="true"></div>
 
 <header>
   <a href="index.html" class="logo" style="text-decoration:none;">MAED</a>
   <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">
-    <span></span><span></span><span></span>
+    <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
   </button>
-  <nav id="siteNav">
+  <nav id="siteNav" aria-label="Primary">
     <a href="index.html#work" class="nav-link">Work</a>
     <a href="services.html" class="nav-link">Services</a>
     <a href="products.html" class="nav-link">Products</a>
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">◐</button>
-    <a href="contact.html" class="btn btn-primary btn-small">Get in touch</a>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light theme" aria-pressed="true">◐</button>
+    <a href="contact.html" class="btn btn-primary btn-small" aria-current="page">Get in touch</a>
   </nav>
 </header>
 
-<main>
+<main id="main">
   <section class="hero-section" style="padding-bottom:140px;">
     <div class="eyebrow">Get in touch</div>
     <h1>What do you need help with?</h1>
@@ -487,8 +542,8 @@
       <div class="ticket-card d2"></div>
       <div class="ticket-card d1"></div>
       <div class="ticket-card front" id="ticketFront">
-        <div class="ticket-face" id="ticketFace">
-          <svg class="ticket-shape" viewBox="0 0 420 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M20,0 H400 A20,20 0 0 1 420,20 V240 A20,20 0 0 1 400,260 H20 A20,20 0 0 1 0,240 V20 A20,20 0 0 1 20,0 Z M-12,130 A12,12 0 1 0 12,130 A12,12 0 1 0 -12,130 Z M408,130 A12,12 0 1 0 432,130 A12,12 0 1 0 408,130 Z"/></svg>
+        <div class="ticket-face" id="ticketFace" role="button" tabindex="0" aria-label="Open contact ticket" aria-expanded="false">
+          <svg class="ticket-shape" aria-hidden="true" focusable="false" viewBox="0 0 420 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M20,0 H400 A20,20 0 0 1 420,20 V240 A20,20 0 0 1 400,260 H20 A20,20 0 0 1 0,240 V20 A20,20 0 0 1 20,0 Z M-12,130 A12,12 0 1 0 12,130 A12,12 0 1 0 -12,130 Z M408,130 A12,12 0 1 0 432,130 A12,12 0 1 0 408,130 Z"/></svg>
           <div class="num">TICKET NO. <span id="ticketNo">0001</span></div>
           <div class="ticket-divider"></div>
           <div class="preview-chips">
@@ -505,25 +560,27 @@
           <div class="hint">Tap to pull →</div>
         </div>
         <div class="ticket-back">
-          <svg class="ticket-shape" viewBox="0 0 420 420" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M20,0 H400 A20,20 0 0 1 420,20 V400 A20,20 0 0 1 400,420 H20 A20,20 0 0 1 0,400 V20 A20,20 0 0 1 20,0 Z M-12,210 A12,12 0 1 0 12,210 A12,12 0 1 0 -12,210 Z M408,210 A12,12 0 1 0 432,210 A12,12 0 1 0 408,210 Z"/></svg>
+          <svg class="ticket-shape" aria-hidden="true" focusable="false" viewBox="0 0 420 420" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M20,0 H400 A20,20 0 0 1 420,20 V400 A20,20 0 0 1 400,420 H20 A20,20 0 0 1 0,400 V20 A20,20 0 0 1 20,0 Z M-12,210 A12,12 0 1 0 12,210 A12,12 0 1 0 -12,210 Z M408,210 A12,12 0 1 0 432,210 A12,12 0 1 0 408,210 Z"/></svg>
           <button type="button" class="ticket-close" id="ticketClose" aria-label="Close ticket">&times;</button>
-          <div class="ticket-chips">
-            <div class="ticket-chip active" data-v="Design">Design</div>
-            <div class="ticket-chip" data-v="Build">Build</div>
-            <div class="ticket-chip" data-v="Audit">Audit</div>
-            <div class="ticket-chip" data-v="Other">Other</div>
+          <form id="ticketForm" action="mailto:hello@maed.ai" method="get">
+          <div class="ticket-chips" role="group" aria-label="What do you need help with?">
+            <button type="button" class="ticket-chip active" data-v="Design" aria-pressed="true">Design</button>
+            <button type="button" class="ticket-chip" data-v="Build" aria-pressed="false">Build</button>
+            <button type="button" class="ticket-chip" data-v="Audit" aria-pressed="false">Audit</button>
+            <button type="button" class="ticket-chip" data-v="Other" aria-pressed="false">Other</button>
           </div>
-          <label>Name</label>
-          <input type="text" placeholder="Your name">
-          <label>Email</label>
-          <input type="email" placeholder="you@example.com">
-          <label>Note</label>
-          <textarea placeholder="A line about the project"></textarea>
-          <div class="ticket-submit-row"><button class="btn btn-primary btn-small">Submit ticket</button></div>
+          <label for="ticketName">Name</label>
+          <input id="ticketName" name="name" type="text" placeholder="Your name" autocomplete="name" required>
+          <label for="ticketEmail">Email</label>
+          <input id="ticketEmail" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+          <label for="ticketNote">Note</label>
+          <textarea id="ticketNote" name="body" placeholder="A line about the project"></textarea>
+          <div class="ticket-submit-row"><button type="submit" class="btn btn-primary btn-small">Submit ticket</button></div>
+          </form>
         </div>
       </div>
     </div>
-    <div class="ticket-overlay" id="ticketOverlay"></div>
+    <div class="ticket-overlay" id="ticketOverlay" hidden></div>
   </section>
 </main>
 
@@ -542,27 +599,60 @@
   const root = document.documentElement;
   const toggle = document.getElementById('themeToggle');
   let theme = 'dark';
+  function syncThemeToggle(){
+    const isDark = theme === 'dark';
+    toggle.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+    toggle.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+  }
   root.setAttribute('data-theme', theme);
+  syncThemeToggle();
   toggle.addEventListener('click', () => {
     theme = theme === 'dark' ? 'light' : 'dark';
     root.setAttribute('data-theme', theme);
+    syncThemeToggle();
   });
 
   const headerEl = document.querySelector('header');
   const navToggle = document.getElementById('navToggle');
   const siteNav = document.getElementById('siteNav');
+  function getNavFocusables(){
+    return [...siteNav.querySelectorAll('a, button')].filter(el => !el.hasAttribute('disabled'));
+  }
   function setNavOpen(open){
     headerEl.classList.toggle('nav-open', open);
     document.body.classList.toggle('nav-locked', open);
     navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
     navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    if(open){
+      const first = getNavFocusables()[0];
+      if(first) setTimeout(() => first.focus(), 50);
+    } else {
+      navToggle.focus();
+    }
   }
   navToggle.addEventListener('click', () => setNavOpen(!headerEl.classList.contains('nav-open')));
   siteNav.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => setNavOpen(false));
   });
+  siteNav.addEventListener('keydown', (e) => {
+    if(!headerEl.classList.contains('nav-open')) return;
+    if(e.key !== 'Tab') return;
+    const items = getNavFocusables();
+    if(!items.length) return;
+    const first = items[0];
+    const last = items[items.length - 1];
+    if(e.shiftKey && document.activeElement === first){
+      e.preventDefault();
+      last.focus();
+    } else if(!e.shiftKey && document.activeElement === last){
+      e.preventDefault();
+      first.focus();
+    }
+  });
   window.addEventListener('keydown', (e) => {
-    if(e.key === 'Escape') setNavOpen(false);
+    if(e.key === 'Escape' && headerEl.classList.contains('nav-open')){
+      setNavOpen(false);
+    }
   });
 
   const io = new IntersectionObserver((entries) => {
@@ -666,18 +756,36 @@
     const ticketFace = document.getElementById('ticketFace');
     const ticketOverlay = document.getElementById('ticketOverlay');
     let ticketPulled = false;
-    ticketFace.addEventListener('click', () => {
+    const openTicket = () => {
       if (ticketPulled) return;
       ticketPulled = true;
       ticketFront.classList.add('pulled');
       ticketOverlay.classList.add('show');
-      setTimeout(() => ticketFront.classList.add('flipped'), 480);
+      ticketOverlay.hidden = false;
+      ticketFace.setAttribute('aria-expanded', 'true');
+      ticketFace.setAttribute('tabindex', '-1');
+      setTimeout(() => {
+        ticketFront.classList.add('flipped');
+        const firstField = document.getElementById('ticketName');
+        if (firstField) firstField.focus();
+      }, 480);
+    };
+    ticketFace.addEventListener('click', openTicket);
+    ticketFace.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openTicket();
+      }
     });
     const closeTicket = () => {
       ticketPulled = false;
       ticketFront.classList.remove('flipped');
       ticketFront.classList.remove('pulled');
       ticketOverlay.classList.remove('show');
+      ticketOverlay.hidden = true;
+      ticketFace.setAttribute('aria-expanded', 'false');
+      ticketFace.setAttribute('tabindex', '0');
+      ticketFace.focus();
     };
     ticketOverlay.addEventListener('click', closeTicket);
     const ticketClose = document.getElementById('ticketClose');
@@ -689,9 +797,16 @@
     }
     document.querySelectorAll('.ticket-chip').forEach(c => {
       c.addEventListener('click', () => {
-        document.querySelectorAll('.ticket-chip').forEach(x => x.classList.remove('active'));
+        document.querySelectorAll('.ticket-chip').forEach(x => {
+          x.classList.remove('active');
+          x.setAttribute('aria-pressed', 'false');
+        });
         c.classList.add('active');
+        c.setAttribute('aria-pressed', 'true');
       });
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && ticketPulled) closeTicket();
     });
   }
 
