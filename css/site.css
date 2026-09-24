@@ -780,6 +780,17 @@
   .hero-editorial h1 .hero-line{
     white-space: nowrap;
   }
+  @media (max-width: 860px){
+    .hero-editorial h1{
+      max-width: 100%;
+      width: 100%;
+      box-sizing: border-box;
+      font-size: clamp(46px, 11vw, 64px);
+    }
+    .hero-editorial h1 .hero-line{
+      white-space: normal;
+    }
+  }
   .hero-editorial .hero-sub{
     max-width: 42ch;
     margin-top:22px;
@@ -1291,8 +1302,4 @@
   @media (max-width: 860px){
     .article-feature{ grid-template-columns:1fr; gap:28px; }
     .hero-section.hero-editorial{ padding-top:140px; padding-bottom:64px; }
-    .hero-editorial h1{
-      max-width: 100%;
-      font-size: clamp(36px, 9.2vw, 56px);
-    }
   }
