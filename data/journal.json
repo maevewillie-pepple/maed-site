@@ -1,0 +1,41 @@
+{
+  "fetchedAt": "2026-10-27T11:43:56.782Z",
+  "posts": [
+    {
+      "title": "MAED Weekly Brief - 26th Oct 2026",
+      "subtitle": "AI is misbehaving, banks are going offline & law firms are becoming tech companies.",
+      "url": "https://maedjournal.substack.com/p/maed-weekly-brief-26th-oct-2026",
+      "cover": "https://substackcdn.com/image/fetch/$s_!7Vs0!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe536b9df-0cd2-4020-8fad-c4defe9a4877_1597x843.png",
+      "date": "2026-10-26T12:56:45.687Z",
+      "slug": "maed-weekly-brief-26th-oct-2026",
+      "section": "weekly-brief"
+    },
+    {
+      "title": "MAED Weekly Brief - 20th Oct 2026",
+      "subtitle": "Regulators are getting creative & banks are feeling cautious ",
+      "url": "https://maedjournal.substack.com/p/maed-weekly-brief-20th-oct-2026",
+      "cover": "https://substackcdn.com/image/fetch/$s_!sVC1!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F17168dec-0d11-4d1f-bafd-1f84a19c9489_1593x875.png",
+      "date": "2026-10-20T15:20:15.931Z",
+      "slug": "maed-weekly-brief-20th-oct-2026",
+      "section": "weekly-brief"
+    },
+    {
+      "title": "I Built a Product. Here's How I Measured Its Success.",
+      "subtitle": "A practical guide to tracking the right metrics, understanding user behaviour and making better product decisions - using A11xyz as a case study.",
+      "url": "https://maedjournal.substack.com/p/i-built-a-product-heres-how-i-measured",
+      "cover": "https://substackcdn.com/image/fetch/$s_!6cuu!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff1668d18-8fae-41f1-be6a-9bbec4f194b1_1536x1024.png",
+      "date": "2026-09-24T14:04:48.976Z",
+      "slug": "i-built-a-product-heres-how-i-measured",
+      "section": "field-notes"
+    },
+    {
+      "title": "The AI Liability Chain Part 1 - What happens to user data when you build on third-party AI?",
+      "subtitle": "It’s become incredibly easy to spin up your own AI chatbot.",
+      "url": "https://maedjournal.substack.com/p/the-ai-liability-chain-part-1-what",
+      "cover": "https://substackcdn.com/image/fetch/$s_!nFz1!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F22bd48a2-5c2e-4e50-aa99-f2b82c01c37c_1536x1024.png",
+      "date": "2026-09-16T00:32:33.172Z",
+      "slug": "the-ai-liability-chain-part-1-what",
+      "section": "under-the-hood"
+    }
+  ]
+}

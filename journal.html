@@ -47,45 +47,18 @@
     <a href="#weekly-brief">The Weekly Brief</a>
   </nav>
 
-  <!-- Lead story -->
-  <section class="journal-lead reveal" aria-label="Featured story">
-    <a class="journal-lead-media" href="https://maedjournal.substack.com/p/i-built-a-product-heres-how-i-measured" target="_blank" rel="noopener">
-      <img src="https://substackcdn.com/image/fetch/$s_!6cuu!,w_1600,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff1668d18-8fae-41f1-be6a-9bbec4f194b1_1536x1024.png" alt="" width="1600" height="1000" loading="eager">
-    </a>
-    <div class="journal-lead-copy">
-      <div class="article-meta">Field Notes · 24 Sep 2026</div>
-      <h2 class="journal-lead-title">
-        <a href="https://maedjournal.substack.com/p/i-built-a-product-heres-how-i-measured" target="_blank" rel="noopener">I Built a Product. Here's How I Measured Its Success.</a>
-      </h2>
-      <p class="journal-lead-dek">A practical guide to tracking the right metrics, understanding user behaviour and making better product decisions, using A11xyz as a case study.</p>
-      <a class="article-link" href="https://maedjournal.substack.com/p/i-built-a-product-heres-how-i-measured" target="_blank" rel="noopener">Read on Substack <span aria-hidden="true">→</span><span class="sr-only"> (opens in a new tab)</span></a>
-    </div>
+  <!-- Lead story (filled from Substack) -->
+  <section class="journal-lead reveal" aria-label="Featured story" data-journal-lead>
+    <div class="journal-feed-loading" aria-hidden="true">Loading latest from Substack…</div>
   </section>
 
   <!-- Latest rail -->
   <section class="journal-latest reveal" aria-label="Latest from the Journal">
     <div class="journal-rail-head">
       <h2>Latest</h2>
-      <p>New writing from across the Journal.</p>
+      <p>New writing from across the Journal, pulled automatically from Substack.</p>
     </div>
-    <div class="journal-story-grid">
-      <a class="journal-story" href="https://maedjournal.substack.com/p/i-built-a-product-heres-how-i-measured" target="_blank" rel="noopener">
-        <div class="journal-story-thumb">
-          <img src="https://substackcdn.com/image/fetch/$s_!6cuu!,w_800,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff1668d18-8fae-41f1-be6a-9bbec4f194b1_1536x1024.png" alt="" width="800" height="500" loading="lazy">
-        </div>
-        <div class="article-meta">Field Notes · 24 Sep 2026</div>
-        <h3>I Built a Product. Here's How I Measured Its Success.</h3>
-        <p>Tracking the right metrics and making better product decisions, using A11xyz as a case study.</p>
-      </a>
-      <a class="journal-story" href="https://maedjournal.substack.com/p/the-ai-liability-chain-part-1-what" target="_blank" rel="noopener">
-        <div class="journal-story-thumb">
-          <img src="https://substackcdn.com/image/fetch/$s_!nFz1!,w_800,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F22bd48a2-5c2e-4e50-aa99-f2b82c01c37c_1536x1024.png" alt="" width="800" height="500" loading="lazy">
-        </div>
-        <div class="article-meta">Under the Hood · 16 Sep 2026</div>
-        <h3>The AI Liability Chain Part 1: What happens to user data when you build on third-party AI?</h3>
-        <p>It's become incredibly easy to spin up your own AI chatbot. What happens to user data when you build on someone else's model?</p>
-      </a>
-    </div>
+    <div class="journal-story-grid" data-journal-latest></div>
   </section>
 
   <section id="field-notes" class="journal-rail section-alt-bg">
@@ -93,16 +66,7 @@
       <h2>Field Notes</h2>
       <p>What happens when ideas leave the page: shipping products, measuring outcomes, and learning in public.</p>
     </div>
-    <div class="journal-story-grid journal-story-grid--wide reveal">
-      <a class="journal-story journal-story--feature" href="https://maedjournal.substack.com/p/i-built-a-product-heres-how-i-measured" target="_blank" rel="noopener">
-        <div class="journal-story-thumb">
-          <img src="https://substackcdn.com/image/fetch/$s_!6cuu!,w_1200,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff1668d18-8fae-41f1-be6a-9bbec4f194b1_1536x1024.png" alt="" width="1200" height="750" loading="lazy">
-        </div>
-        <div class="article-meta">24 Sep 2026</div>
-        <h3>I Built a Product. Here's How I Measured Its Success.</h3>
-        <p>A practical guide to tracking the right metrics, understanding user behaviour and making better product decisions.</p>
-      </a>
-    </div>
+    <div class="journal-story-grid journal-story-grid--wide reveal" data-journal-section="field-notes"></div>
   </section>
 
   <section id="under-the-hood" class="journal-rail">
@@ -110,16 +74,7 @@
       <h2>Under the Hood</h2>
       <p>Technical and structural deep-dives: systems, liability, data and how things actually work.</p>
     </div>
-    <div class="journal-story-grid reveal">
-      <a class="journal-story" href="https://maedjournal.substack.com/p/the-ai-liability-chain-part-1-what" target="_blank" rel="noopener">
-        <div class="journal-story-thumb">
-          <img src="https://substackcdn.com/image/fetch/$s_!nFz1!,w_800,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F22bd48a2-5c2e-4e50-aa99-f2b82c01c37c_1536x1024.png" alt="" width="800" height="500" loading="lazy">
-        </div>
-        <div class="article-meta">16 Sep 2026</div>
-        <h3>The AI Liability Chain Part 1: What happens to user data when you build on third-party AI?</h3>
-        <p>What happens to user data when you build on someone else's model?</p>
-      </a>
-    </div>
+    <div class="journal-story-grid reveal" data-journal-section="under-the-hood"></div>
   </section>
 
   <section id="perspective" class="journal-rail section-alt-bg">
@@ -127,24 +82,7 @@
       <h2>Perspective</h2>
       <p>Longer arguments and viewpoints on how technology, law and business intersect.</p>
     </div>
-    <div class="journal-story-grid reveal">
-      <a class="journal-story journal-story--soon" href="https://maedjournal.substack.com" target="_blank" rel="noopener">
-        <div class="journal-story-thumb journal-story-thumb--soon" aria-hidden="true">
-          <span>Coming soon</span>
-        </div>
-        <div class="article-meta">Perspective</div>
-        <h3>Coming soon</h3>
-        <p>New essays will appear here. Follow on Substack so you don't miss them.</p>
-      </a>
-      <a class="journal-story journal-story--soon" href="https://maedjournal.substack.com" target="_blank" rel="noopener">
-        <div class="journal-story-thumb journal-story-thumb--soon" aria-hidden="true">
-          <span>Coming soon</span>
-        </div>
-        <div class="article-meta">Perspective</div>
-        <h3>Coming soon</h3>
-        <p>Longer arguments on technology, law and business, publishing soon.</p>
-      </a>
-    </div>
+    <div class="journal-story-grid reveal" data-journal-section="perspective"></div>
   </section>
 
   <section id="toolkit" class="journal-rail">
@@ -152,24 +90,7 @@
       <h2>Toolkit</h2>
       <p>Practical frameworks, checklists and methods you can take into your own work.</p>
     </div>
-    <div class="journal-story-grid reveal">
-      <a class="journal-story journal-story--soon" href="https://maedjournal.substack.com" target="_blank" rel="noopener">
-        <div class="journal-story-thumb journal-story-thumb--soon" aria-hidden="true">
-          <span>Coming soon</span>
-        </div>
-        <div class="article-meta">Toolkit</div>
-        <h3>Coming soon</h3>
-        <p>Frameworks and checklists you can use in your own work, arriving soon.</p>
-      </a>
-      <a class="journal-story journal-story--soon" href="https://maedjournal.substack.com" target="_blank" rel="noopener">
-        <div class="journal-story-thumb journal-story-thumb--soon" aria-hidden="true">
-          <span>Coming soon</span>
-        </div>
-        <div class="article-meta">Toolkit</div>
-        <h3>Coming soon</h3>
-        <p>Practical methods from the studio. Follow on Substack for updates.</p>
-      </a>
-    </div>
+    <div class="journal-story-grid reveal" data-journal-section="toolkit"></div>
   </section>
 
   <section id="weekly-brief" class="journal-rail section-alt-bg">
@@ -177,24 +98,7 @@
       <h2>The Weekly Brief</h2>
       <p>A short weekly digest of what matters across technology, product and the work of building.</p>
     </div>
-    <div class="journal-story-grid reveal">
-      <a class="journal-story journal-story--soon" href="https://maedjournal.substack.com" target="_blank" rel="noopener">
-        <div class="journal-story-thumb journal-story-thumb--soon" aria-hidden="true">
-          <span>Coming soon</span>
-        </div>
-        <div class="article-meta">The Weekly Brief</div>
-        <h3>Coming soon</h3>
-        <p>The first Brief isn't out yet. Subscribe on Substack so it lands in your inbox.</p>
-      </a>
-      <a class="journal-story journal-story--soon" href="https://maedjournal.substack.com/subscribe" target="_blank" rel="noopener">
-        <div class="journal-story-thumb journal-story-thumb--soon" aria-hidden="true">
-          <span>Subscribe</span>
-        </div>
-        <div class="article-meta">Newsletter</div>
-        <h3>Get the Brief in your inbox</h3>
-        <p>New writing from the Journal, delivered on Substack.</p>
-      </a>
-    </div>
+    <div class="journal-story-grid reveal" data-journal-section="weekly-brief"></div>
   </section>
 </main>
 
@@ -212,5 +116,6 @@
 </footer>
 
 <script src="js/site.js"></script>
+<script src="js/journal-feed.js"></script>
 </body>
 </html>

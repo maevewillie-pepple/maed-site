@@ -841,7 +841,7 @@
     padding-right:4vw;
   }
   .hero-editorial h1{
-    max-width: 22ch;
+    max-width: 18ch;
     font-size: clamp(42px, 7vw, 78px);
   }
   .hero-editorial h1 .hero-line{
@@ -1014,6 +1014,17 @@
     object-fit:cover;
     display:block;
     background: var(--bg-card-2);
+  }
+  .article-list-thumb--empty{
+    border:1px solid var(--border-soft);
+  }
+  .journal-feed-loading{
+    font-family: var(--mono);
+    font-size:12px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color: var(--ink-faint);
+    padding:28px 0;
   }
   .article-list-body{ min-width:0; flex:1; }
   .article-list a:hover .article-list-title{ color: var(--accent-text); }

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MAED · Understanding technology. Building what comes next.</title>
+<title>MAED · Useful technology for growing businesses</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -33,9 +33,9 @@
 
 <main id="main">
   <section class="hero-section hero-editorial">
-    <div class="eyebrow">Independent technology studio &amp; publication</div>
-    <h1><span class="hero-line">Understanding technology.</span><br>Building what comes next.</h1>
-    <p class="hero-sub">Ideas, analysis and practical solutions at the intersection of technology, design, business and law.</p>
+    <div class="eyebrow">Independent technology &amp; AI studio</div>
+    <h1>Useful technology for growing businesses</h1>
+    <p class="hero-sub">We automate busywork, build websites and products, and improve what you already have.</p>
 
     <div class="ticket-prompt">
       <div class="tp-main">What do you need help with?</div>
@@ -51,10 +51,10 @@
           <div class="num">TICKET NO. <span id="ticketNo">0001</span></div>
           <div class="ticket-divider"></div>
           <div class="preview-chips">
-            <span class="pv-chip">Design</span>
+            <span class="pv-chip">Automate</span>
             <span class="pv-chip">Build</span>
-            <span class="pv-chip">Audit</span>
-            <span class="pv-chip">Other</span>
+            <span class="pv-chip">Improve</span>
+            <span class="pv-chip">Advise</span>
           </div>
           <div class="ticket-divider"></div>
           <div class="preview-field">
@@ -68,10 +68,10 @@
           <button type="button" class="ticket-close" id="ticketClose" aria-label="Close ticket">&times;</button>
           <form id="ticketForm" action="mailto:hello@maed.ai" method="get">
           <div class="ticket-chips" role="group" aria-label="What do you need help with?">
-            <button type="button" class="ticket-chip active" data-v="Design" aria-pressed="true">Design</button>
+            <button type="button" class="ticket-chip active" data-v="Automate" aria-pressed="true">Automate</button>
             <button type="button" class="ticket-chip" data-v="Build" aria-pressed="false">Build</button>
-            <button type="button" class="ticket-chip" data-v="Audit" aria-pressed="false">Audit</button>
-            <button type="button" class="ticket-chip" data-v="Other" aria-pressed="false">Other</button>
+            <button type="button" class="ticket-chip" data-v="Improve" aria-pressed="false">Improve</button>
+            <button type="button" class="ticket-chip" data-v="Advise" aria-pressed="false">Advise</button>
           </div>
           <label for="ticketName">Name</label>
           <input id="ticketName" name="name" type="text" placeholder="Your name" autocomplete="name" required>
@@ -184,27 +184,10 @@
       <h2>Ideas worth thinking about.</h2>
       <p class="section-lede">An independent publication exploring technology, law, business, AI and product development, published on Substack.</p>
     </div></div>
-    <div class="article-feature reveal">
-      <a class="article-cover" href="https://maedjournal.substack.com/p/i-built-a-product-heres-how-i-measured" target="_blank" rel="noopener">
-        <img src="https://substackcdn.com/image/fetch/$s_!6cuu!,w_1200,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff1668d18-8fae-41f1-be6a-9bbec4f194b1_1536x1024.png" alt="" width="1200" height="800" loading="lazy">
-      </a>
-      <div>
-        <div class="article-meta">Field Notes · 24 Sep 2026</div>
-        <h3 class="article-title"><a href="https://maedjournal.substack.com/p/i-built-a-product-heres-how-i-measured" target="_blank" rel="noopener">I Built a Product. Here's How I Measured Its Success.</a></h3>
-        <p class="article-desc">A practical guide to tracking the right metrics, understanding user behaviour and making better product decisions, using A11xyz as a case study.</p>
-        <a class="article-link" href="https://maedjournal.substack.com/p/i-built-a-product-heres-how-i-measured" target="_blank" rel="noopener">Read on Substack <span aria-hidden="true">→</span><span class="sr-only"> (opens in a new tab)</span></a>
-      </div>
+    <div class="article-feature reveal" data-journal-home-feature>
+      <div class="journal-feed-loading" aria-hidden="true">Loading latest from Substack…</div>
     </div>
-    <div class="article-list reveal" style="margin-top:36px;">
-      <a href="https://maedjournal.substack.com/p/the-ai-liability-chain-part-1-what" target="_blank" rel="noopener">
-        <img class="article-list-thumb" src="https://substackcdn.com/image/fetch/$s_!nFz1!,w_200,h_200,c_fill,f_auto,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F22bd48a2-5c2e-4e50-aa99-f2b82c01c37c_1536x1024.png" alt="" width="72" height="72" loading="lazy">
-        <div class="article-list-body">
-          <div class="article-meta">Under the Hood · 16 Sep 2026</div>
-          <div class="article-list-title">The AI Liability Chain Part 1: What happens to user data when you build on third-party AI?</div>
-          <p class="article-list-desc">It's become incredibly easy to spin up your own AI chatbot. What happens to user data when you build on someone else's model?</p>
-        </div>
-      </a>
-    </div>
+    <div class="article-list reveal" style="margin-top:36px;" data-journal-home-list></div>
     <a href="journal.html" class="btn btn-ghost reveal" style="margin-top:32px;">Explore the Journal</a>
   </section>
 
@@ -266,5 +249,6 @@
 </footer>
 
 <script src="js/site.js"></script>
+<script src="js/journal-feed.js"></script>
 </body>
 </html>
