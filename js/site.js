@@ -230,6 +230,23 @@
         resetChips(c.getAttribute('data-v') || 'Automate');
       });
     });
+    const openMailtoTicket = (payload) => {
+      const subject = encodeURIComponent(
+        `MAED ticket · ${payload.interest}${payload.ticketNo ? ` · #${payload.ticketNo}` : ''}`
+      );
+      const body = encodeURIComponent(
+        [
+          `Interest: ${payload.interest}`,
+          `Ticket: #${payload.ticketNo || 'n/a'}`,
+          `Name: ${payload.name}`,
+          `Email: ${payload.email}`,
+          '',
+          payload.note || '(No note provided)',
+        ].join('\n')
+      );
+      window.location.href = `mailto:hello@maed.ai?subject=${subject}&body=${body}`;
+    };
+
     if (ticketForm) {
       ticketForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -250,13 +267,20 @@
             body: JSON.stringify(payload),
           });
           const data = await res.json().catch(() => ({}));
-          if (!res.ok) throw new Error(data.error || 'Send failed');
-          ticketForm.reset();
-          resetChips('Automate');
-          if (ticketNoField) ticketNoField.value = ticketNumber;
-          setTicketStatus('Ticket sent. We will be in touch.', 'ok');
+          if (res.ok) {
+            ticketForm.reset();
+            resetChips('Automate');
+            if (ticketNoField) ticketNoField.value = ticketNumber;
+            setTicketStatus('Ticket sent. We will be in touch.', 'ok');
+            return;
+          }
+          // No email provider configured yet, or delivery failed: fall back to mailto
+          // without a form GET, so Chrome does not show the insecure-form warning.
+          openMailtoTicket(payload);
+          setTicketStatus('Opening your email app to finish sending.', 'ok');
         } catch (_) {
-          setTicketStatus('Could not send. Email hello@maed.ai instead.', 'error');
+          openMailtoTicket(payload);
+          setTicketStatus('Opening your email app to finish sending.', 'ok');
         } finally {
           if (submitBtn) submitBtn.disabled = false;
         }

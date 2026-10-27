@@ -1,4 +1,6 @@
-const TO_EMAIL = 'hello@maed.ai';
+const TO_EMAIL = process.env.TICKET_TO_EMAIL || 'hello@maed.ai';
+const RESEND_API_KEY = process.env.RESEND_API_KEY || '';
+const RESEND_FROM = process.env.RESEND_FROM || 'MAED <onboarding@resend.dev>';
 
 function readBody(req) {
   if (req.body && typeof req.body === 'object') return Promise.resolve(req.body);
@@ -33,7 +35,55 @@ function json(res, status, payload) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Accept');
+  res.setHeader('Cache-Control', 'no-store');
   res.end(JSON.stringify(payload));
+}
+
+function buildEmailText({ name, email, note, interest, ticketNo }) {
+  return [
+    `New ticket from maed.ai`,
+    ``,
+    `Ticket: #${ticketNo || 'n/a'}`,
+    `Interest: ${interest}`,
+    `Name: ${name}`,
+    `Email: ${email}`,
+    ``,
+    note || '(No note provided)',
+  ].join('\n');
+}
+
+async function sendWithResend(payload) {
+  const upstream = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${RESEND_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: RESEND_FROM,
+      to: [TO_EMAIL],
+      reply_to: payload.email,
+      subject: `MAED ticket · ${payload.interest}${payload.ticketNo ? ` · #${payload.ticketNo}` : ''}`,
+      text: buildEmailText(payload),
+    }),
+  });
+
+  const resultText = await upstream.text();
+  let result = {};
+  try {
+    result = JSON.parse(resultText);
+  } catch (_) {
+    result = { message: resultText };
+  }
+
+  if (!upstream.ok) {
+    const detail = result.message || result.error || resultText || `Resend ${upstream.status}`;
+    const err = new Error(detail);
+    err.status = upstream.status;
+    throw err;
+  }
+
+  return result;
 }
 
 module.exports = async function handler(req, res) {
@@ -60,52 +110,28 @@ module.exports = async function handler(req, res) {
     const ticketNo = String(body.ticketNo || body.ticket || '').trim();
 
     if (!name || !email) {
-      json(res, 400, { error: 'Name and email are required' });
+      json(res, 400, { error: 'Name and email are required', code: 'VALIDATION' });
       return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      json(res, 400, { error: 'Enter a valid email' });
+      json(res, 400, { error: 'Enter a valid email', code: 'VALIDATION' });
       return;
     }
 
-    const upstream = await fetch(`https://formsubmit.co/ajax/${TO_EMAIL}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({
-        name,
-        email,
-        message: note || '(No note provided)',
-        interest,
-        ticket: ticketNo || 'n/a',
-        _subject: `MAED ticket · ${interest}`,
-        _template: 'table',
-        _replyto: email,
-      }),
-    });
-
-    const resultText = await upstream.text();
-    let result;
-    try {
-      result = JSON.parse(resultText);
-    } catch (_) {
-      result = { message: resultText };
-    }
-
-    if (!upstream.ok) {
-      json(res, 502, {
-        error: 'Could not deliver ticket',
-        detail: result.message || result.error || 'Upstream error',
+    if (!RESEND_API_KEY) {
+      json(res, 503, {
+        error: 'Email delivery is not configured yet',
+        code: 'NO_PROVIDER',
       });
       return;
     }
 
+    await sendWithResend({ name, email, note, interest, ticketNo });
     json(res, 200, { ok: true, message: 'Ticket sent' });
   } catch (err) {
-    json(res, 500, {
-      error: 'Could not send ticket',
+    json(res, 502, {
+      error: 'Could not deliver ticket',
+      code: 'DELIVERY_FAILED',
       detail: String(err && err.message ? err.message : err),
     });
   }
