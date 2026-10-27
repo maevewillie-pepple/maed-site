@@ -273,6 +273,16 @@
     transition: border-color 0.2s, transform 0.2s;
   }
   .ticket-close:hover{ border-color: rgba(128,128,128,0.45); transform: scale(1.05); }
+  .ticket-status{
+    min-height:1.2em;
+    margin-top:10px;
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.04em;
+    color: var(--ink-dim);
+  }
+  .ticket-status.is-error{ color:#d66; }
+  .ticket-status.is-ok{ color: var(--accent-text); }
   .ticket-submit-row{ margin-top:12px; display:flex; justify-content:flex-end; }
   @media (max-width:700px){
     .ticket-stack{

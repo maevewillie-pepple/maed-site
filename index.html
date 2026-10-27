@@ -66,7 +66,9 @@
         <div class="ticket-back">
           <svg class="ticket-shape" aria-hidden="true" focusable="false" viewBox="0 0 420 420" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path class="ticket-silhouette" d="M20,0 H400 A20,20 0 0 1 420,20 V198 C413.3725830024,198 408,203.3725830024 408,210 C408,216.6274169976 413.3725830024,222 420,222 V400 A20,20 0 0 1 400,420 H20 A20,20 0 0 1 0,400 V222 C6.627416997599999,222 12,216.6274169976 12,210 C12,203.3725830024 6.627416997599999,198 0,198 V20 A20,20 0 0 1 20,0 Z"/></svg>
           <button type="button" class="ticket-close" id="ticketClose" aria-label="Close ticket">&times;</button>
-          <form id="ticketForm" action="mailto:hello@maed.ai" method="get">
+          <form id="ticketForm" action="/api/ticket" method="POST">
+          <input type="hidden" name="interest" id="ticketInterest" value="Automate">
+          <input type="hidden" name="ticketNo" id="ticketNoField" value="">
           <div class="ticket-chips" role="group" aria-label="What do you need help with?">
             <button type="button" class="ticket-chip active" data-v="Automate" aria-pressed="true">Automate</button>
             <button type="button" class="ticket-chip" data-v="Build" aria-pressed="false">Build</button>
@@ -78,7 +80,8 @@
           <label for="ticketEmail">Email</label>
           <input id="ticketEmail" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
           <label for="ticketNote">Note</label>
-          <textarea id="ticketNote" name="body" placeholder="A line about the project"></textarea>
+          <textarea id="ticketNote" name="note" placeholder="A line about the project"></textarea>
+          <p class="ticket-status" id="ticketStatus" role="status" aria-live="polite"></p>
           <div class="ticket-submit-row"><button type="submit" class="btn btn-primary btn-small">Submit ticket</button></div>
           </form>
         </div>

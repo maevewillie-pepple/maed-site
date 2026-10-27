@@ -161,10 +161,16 @@
   /* ticket pull (guarded: only runs on pages with a ticket) */
   const ticketNoEl = document.getElementById('ticketNo');
   if (ticketNoEl) {
-    ticketNoEl.textContent = String(Math.floor(1000 + Math.random()*9000));
+    const ticketNumber = String(Math.floor(1000 + Math.random()*9000));
+    ticketNoEl.textContent = ticketNumber;
     const ticketFront = document.getElementById('ticketFront');
     const ticketFace = document.getElementById('ticketFace');
     const ticketOverlay = document.getElementById('ticketOverlay');
+    const ticketForm = document.getElementById('ticketForm');
+    const ticketInterest = document.getElementById('ticketInterest');
+    const ticketNoField = document.getElementById('ticketNoField');
+    const ticketStatus = document.getElementById('ticketStatus');
+    if (ticketNoField) ticketNoField.value = ticketNumber;
     let ticketPulled = false;
     const openTicket = () => {
       if (ticketPulled) return;
@@ -205,16 +211,57 @@
         closeTicket();
       });
     }
+    const setTicketStatus = (message, state) => {
+      if (!ticketStatus) return;
+      ticketStatus.textContent = message || '';
+      ticketStatus.classList.toggle('is-error', state === 'error');
+      ticketStatus.classList.toggle('is-ok', state === 'ok');
+    };
+    const resetChips = (value) => {
+      document.querySelectorAll('.ticket-chip').forEach(x => {
+        const on = x.getAttribute('data-v') === value;
+        x.classList.toggle('active', on);
+        x.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      if (ticketInterest) ticketInterest.value = value;
+    };
     document.querySelectorAll('.ticket-chip').forEach(c => {
       c.addEventListener('click', () => {
-        document.querySelectorAll('.ticket-chip').forEach(x => {
-          x.classList.remove('active');
-          x.setAttribute('aria-pressed', 'false');
-        });
-        c.classList.add('active');
-        c.setAttribute('aria-pressed', 'true');
+        resetChips(c.getAttribute('data-v') || 'Automate');
       });
     });
+    if (ticketForm) {
+      ticketForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = ticketForm.querySelector('[type="submit"]');
+        const payload = {
+          name: (document.getElementById('ticketName')?.value || '').trim(),
+          email: (document.getElementById('ticketEmail')?.value || '').trim(),
+          note: (document.getElementById('ticketNote')?.value || '').trim(),
+          interest: ticketInterest?.value || 'Automate',
+          ticketNo: ticketNoField?.value || ticketNumber,
+        };
+        if (submitBtn) submitBtn.disabled = true;
+        setTicketStatus('Sending…');
+        try {
+          const res = await fetch('/api/ticket', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok) throw new Error(data.error || 'Send failed');
+          ticketForm.reset();
+          resetChips('Automate');
+          if (ticketNoField) ticketNoField.value = ticketNumber;
+          setTicketStatus('Ticket sent. We will be in touch.', 'ok');
+        } catch (_) {
+          setTicketStatus('Could not send. Email hello@maed.ai instead.', 'error');
+        } finally {
+          if (submitBtn) submitBtn.disabled = false;
+        }
+      });
+    }
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && ticketPulled) closeTicket();
     });
